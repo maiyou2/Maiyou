@@ -1,4 +1,3 @@
-<!doctype html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html class="no-js">
@@ -26,7 +25,7 @@
 
 
 
-</head>
+
 
 <body>
 <header class="am-topbar admin-header">
@@ -40,11 +39,22 @@
 </li>
 
  <li class="kuanjie">
- 	
- 	<a href="#">用户管理</a>
- 	<a href="#">订单管理</a>
- 	<a href="#">酒店管理</a>
- 	<a href="#">套餐管理</a>
+
+     <c:if test="${loginAdmin.adminRank eq '1'}">
+         <a >套餐管理</a>
+     </c:if>
+     <c:if test="${loginAdmin.adminRank eq '2'}">
+         <a href="${pageContext.request.contextPath}/orderForm/orderFormList?pageNum=1&pageSize=3">订单管理</a>
+         <a >酒店管理</a>
+         <a >套餐管理</a>
+     </c:if>
+     <c:if test="${loginAdmin.adminRank eq '3'}">
+         <a href="${pageContext.request.contextPath}/user/toUser?pageNum=1&pageSize=3">用户列表</a>
+         <a href="${pageContext.request.contextPath}/admin/queryAllAdmin?pageNum=1&pageSize=3">权限管理</a>
+         <a href="${pageContext.request.contextPath}/orderForm/orderFormList?pageNum=1&pageSize=3">订单管理</a>
+         <a >酒店管理</a>
+         <a >套餐管理</a>
+     </c:if>
  </li>
 
  <li class="soso">
@@ -75,34 +85,74 @@
 <div class="am-cf admin-main"> 
 
 <div class="nav-navicon admin-main admin-sidebar">
-    
-    
-    <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：清风抚雪</div>
+
+    <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎:${loginAdmin.adminName}</div>
     <div class="sideMenu">
-        <h3 class="am-icon-flag"><em></em> <a href="#">用户管理</a></h3>
-        <ul>
-            <li><a href="yonghuliebiao.jsp">用户列表</a></li>
-            <li class="func" dataType='html' dataLink='msn.htm' iconImg='images/msn.gif'>添加新用户</li>
-            <li><a href="quanxianguanli.jsp">权限管理</a></li>
-            <li>权限管理</li>
-            <li>权限管理</li>
-        </ul>
-        <h3 class="am-icon-cart-plus"><em></em> <a href="#"> 订单管理</a></h3>
-        <ul>
-            <li><a href="dingdanliebiao.jsp"></a></li>
-            <li>订单管理</li>
-            <li>订单管理</li>
-        </ul>
-        <h3 class="am-icon-users"><em></em> <a href="#">酒店管理</a></h3>
-        <ul>
-            <li>酒店</li>
-            <li>酒店</li>
-        </ul>
-        <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
-        <ul>
-            <li>套餐管理</li>
-            <li>套餐管理</li>
-        </ul>
+        <c:if test="${loginAdmin.adminRank eq '3级'}">
+            <div id="yonghu">
+                <h3 class="am-icon-flag"><em></em> <a href="#">用户管理</a></h3>
+                <ul>
+                    <li><a href="">用户列表</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/queryAllAdmin?pageNum=2&pageSize=3">权限管理</a></li>
+                </ul>
+            </div>
+            <div id="dingdan">
+                <h3 class="am-icon-cart-plus"><em></em> <a href="#"> 订单管理</a></h3>
+                <ul>
+                    <li><a href="">订单管理</a></li>
+                </ul>
+            </div>
+            <div id="jiudian">
+                <h3 class="am-icon-users"><em></em> <a href="#">酒店管理</a></h3>
+                <ul>
+                    <li><a href="">酒店管理</a></li>
+
+                </ul>
+            </div>
+            <div id="taocan">
+                <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
+                <ul>
+                    <li><a href="">套餐管理</a></li>
+
+                </ul>
+            </div>
+        </c:if>
+        <c:if test="${loginAdmin.adminRank eq '2级'}">
+            <div id="dingdan">
+                <h3 class="am-icon-cart-plus"><em></em> <a href="#"> 订单管理</a></h3>
+                <ul>
+                    <li><a href="">订单管理</a></li>
+                </ul>
+            </div>
+            <div id="jiudian">
+                <h3 class="am-icon-users"><em></em> <a href="#">酒店管理</a></h3>
+                <ul>
+                    <li><a href="">酒店管理</a></li>
+
+                </ul>
+            </div>
+            <div id="taocan">
+                <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
+                <ul>
+                    <li><a href="">套餐管理</a></li>
+
+                </ul>
+            </div>
+        </c:if>
+
+        <c:if test="${loginAdmin.adminRank eq '1级'}">
+            <div id="taocan">
+                <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
+                <ul>
+                    <li><a href="">套餐管理</a></li>
+
+                </ul>
+            </div>
+        </c:if>
+
+    </div>
+
+
     </div>
     <!-- sideMenu End -->
 
@@ -274,6 +324,7 @@
 
             </tbody>
           </table>
+        <%--这里是分页位置--%>
           <ul class="am-pagination am-fr">
                 <li class="am-disabled"><a href="#">«</a></li>
                 <li class="am-active"><a href="#">1</a></li>
@@ -317,13 +368,13 @@
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="assets/js/polyfill/rem.min.js"></script>
-<script src="assets/js/polyfill/respond.min.js"></script>
-<script src="assets/js/amazeui.legacy.js"></script>
+<script src="${pageContext.requset.contextPath}/assets/js/polyfill/rem.min.js"></script>
+<script src="${pageContext.requset.contextPath}/assets/js/polyfill/respond.min.js"></script>
+<script src="${pageContext.requset.contextPath}/assets/js/amazeui.legacy.js"></script>
 <![endif]--> 
 
 <!--[if (gte IE 9)|!(IE)]><!--> 
-<script src="assets/js/amazeui.min.js"></script>
+<script src="${pageContext.requset.contextPath}/assets/js/amazeui.min.js"></script>
 <!--<![endif]-->
 
 

@@ -18,7 +18,7 @@ public class PlaneTicket {
 
      */
     private Integer planeId,visbble;
-    private String planeWay,planeGoto,planeGotoTime,planeOrigin,planGoal;
+    private String planeWay,planeGoto,planeGotoTime,planeOrigin,planGoal,plankeMakePrice;
     private double planePrice;
 
     @Override

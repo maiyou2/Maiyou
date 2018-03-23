@@ -26,11 +26,11 @@
 
 
 
-</head>
+
 
 <body>
 <header class="am-topbar admin-header">
-  <div class="am-topbar-brand"><img src="assets/i/logo.png"></div>
+  <div class="am-topbar-brand"><img src="${pageContext.request.contextPath}/assets/i/logo.png"></div>
 
   <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
@@ -40,11 +40,22 @@
 </li>
 
  <li class="kuanjie">
- 	
- 	<a href="#">用户管理</a>
- 	<a href="#">订单管理</a>
- 	<a href="#">酒店管理</a>
- 	<a href="#">套餐管理</a>
+
+     <c:if test="${loginAdmin.adminRank eq '1'}">
+         <a >套餐管理</a>
+     </c:if>
+     <c:if test="${loginAdmin.adminRank eq '2'}">
+         <a href="${pageContext.request.contextPath}/orderForm/orderFormList?pageNum=1&pageSize=3">订单管理</a>
+         <a >酒店管理</a>
+         <a >套餐管理</a>
+     </c:if>
+     <c:if test="${loginAdmin.adminRank eq '3'}">
+         <a href="${pageContext.request.contextPath}/user/toUser?pageNum=1&pageSize=3">用户列表</a>
+         <a href="${pageContext.request.contextPath}/admin/queryAllAdmin?pageNum=1&pageSize=3">权限管理</a>
+         <a href="${pageContext.request.contextPath}/orderForm/orderFormList?pageNum=1&pageSize=3">订单管理</a>
+         <a >酒店管理</a>
+         <a >套餐管理</a>
+     </c:if>
  </li>
 
  <li class="soso">
@@ -75,48 +86,57 @@
 <div class="am-cf admin-main"> 
 
 <div class="nav-navicon admin-main admin-sidebar">
-    
-    
-    <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎系统管理员：清风抚雪</div>
+
+
+    <div class="sideMenu am-icon-dashboard" style="color:#aeb2b7; margin: 10px 0 0 0;"> 欢迎:${loginAdmin.adminName}</div>
     <div class="sideMenu">
-        <h3 class="am-icon-flag"><em></em> <a href="#">用户管理</a></h3>
-        <ul>
-            <li><a href="yonghuliebiao.jsp">用户列表</a></li>
-            <li class="func" dataType='html' dataLink='msn.htm' iconImg='images/msn.gif'>添加新用户</li>
-            <li><a href="quanxianguanli.jsp">权限管理</a></li>
-            <li>权限管理</li>
-            <li>权限管理</li>
-        </ul>
-        <h3 class="am-icon-cart-plus"><em></em> <a href="#"> 订单管理</a></h3>
-        <ul>
-            <li><a href="dingdanliebiao.jsp"></a></li>
-            <li>订单管理</li>
-            <li>订单管理</li>
-        </ul>
-        <h3 class="am-icon-users"><em></em> <a href="#">酒店管理</a></h3>
-        <ul>
-            <li>酒店</li>
-            <li>酒店</li>
-        </ul>
-        <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
-        <ul>
-            <li>套餐管理</li>
-            <li>套餐管理</li>
-        </ul>
+        <c:if test="${loginAdmin.adminRank eq '3'}">
+            <div id="yonghu">
+                <h3 class="am-icon-flag"><em></em> <a href="${pageContext.request.contextPath}/user/toUser?pageNum=1&pageSize=3">用户列表</a></h3>
+                <h3 class="am-icon-flag"><em></em> <a href="${pageContext.request.contextPath}/admin/queryAllAdmin?pageNum=1&pageSize=3">权限管理</a></h3>
+            </div>
+            <div id="dingdan">
+                <h3 class="am-icon-cart-plus"><em></em> <a href="${pageContext.request.contextPath}/orderForm/orderFormList?pageNum=1&pageSize=3"> 订单管理</a></h3>
+            </div>
+            <div id="jiudian">
+                <h3 class="am-icon-users"><em></em> <a href="#">酒店管理</a></h3>
+            </div>
+            <div id="taocan">
+                <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
+            </div>
+        </c:if>
+        <c:if test="${loginAdmin.adminRank eq '2'}">
+            <div id="dingdan">
+                <h3 class="am-icon-cart-plus"><em></em> <a href="${pageContext.request.contextPath}/orderForm/orderFormList?pageNum=1&pageSize=3"> 订单管理</a></h3>
+            </div>
+            <div id="jiudian">
+                <h3 class="am-icon-users"><em></em> <a href="#">酒店管理</a></h3>
+            </div>
+            <div id="taocan">
+                <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
+            </div>
+        </c:if>
+
+        <c:if test="${loginAdmin.adminRank eq '1'}">
+            <div id="taocan">
+                <h3 class="am-icon-volume-up"><em></em> <a href="#">套餐管理</a></h3>
+            </div>
+        </c:if>
+
     </div>
     <!-- sideMenu End -->
 
-    <script type="text/javascript">
-        jQuery(".sideMenu").slide({
-            titCell:"h3", //鼠标触发对象
-            targetCell:"ul", //与titCell一一对应，第n个titCell控制第n个targetCell的显示隐藏
-            effect:"slideDown", //targetCell下拉效果
-            delayTime:300 , //效果时间
-            triggerTime:150, //鼠标延迟触发时间（默认150）
-            defaultPlay:true,//默认是否执行效果（默认true）
-            returnDefault:true //鼠标从.sideMen移走后返回默认状态（默认false）
-        });
-    </script>
+    <%--<script type="text/javascript">--%>
+        <%--jQuery(".sideMenu").slide({--%>
+            <%--titCell:"h3", //鼠标触发对象--%>
+            <%--targetCell:"ul", //与titCell一一对应，第n个titCell控制第n个targetCell的显示隐藏--%>
+            <%--effect:"slideDown", //targetCell下拉效果--%>
+            <%--delayTime:300 , //效果时间--%>
+            <%--triggerTime:150, //鼠标延迟触发时间（默认150）--%>
+            <%--defaultPlay:true,//默认是否执行效果（默认true）--%>
+            <%--returnDefault:true //鼠标从.sideMen移走后返回默认状态（默认false）--%>
+        <%--});--%>
+    <%--</script>--%>
 
 
 
@@ -128,17 +148,17 @@
 </div>
     <!-- sideMenu End --> 
     
-    <script type="text/javascript">
-			jQuery(".sideMenu").slide({
-				titCell:"h3", //鼠标触发对象
-				targetCell:"ul", //与titCell一一对应，第n个titCell控制第n个targetCell的显示隐藏
-				effect:"slideDown", //targetCell下拉效果
-				delayTime:300 , //效果时间
-				triggerTime:150, //鼠标延迟触发时间（默认150）
-				defaultPlay:true,//默认是否执行效果（默认true）
-				returnDefault:true //鼠标从.sideMen移走后返回默认状态（默认false）
-				});
-		</script> 
+    <%--<script type="text/javascript">--%>
+			<%--jQuery(".sideMenu").slide({--%>
+				<%--titCell:"h3", //鼠标触发对象--%>
+				<%--targetCell:"ul", //与titCell一一对应，第n个titCell控制第n个targetCell的显示隐藏--%>
+				<%--effect:"slideDown", //targetCell下拉效果--%>
+				<%--delayTime:300 , //效果时间--%>
+				<%--triggerTime:150, //鼠标延迟触发时间（默认150）--%>
+				<%--defaultPlay:true,//默认是否执行效果（默认true）--%>
+				<%--returnDefault:true //鼠标从.sideMen移走后返回默认状态（默认false）--%>
+				<%--});--%>
+		<%--</script> --%>
 
     
     
@@ -323,13 +343,13 @@
 <!--[if lt IE 9]>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="assets/js/polyfill/rem.min.js"></script>
-<script src="assets/js/polyfill/respond.min.js"></script>
-<script src="assets/js/amazeui.legacy.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/polyfill/rem.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/polyfill/respond.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/amazeui.legacy.js"></script>
 <![endif]--> 
 
 <!--[if (gte IE 9)|!(IE)]><!--> 
-<script src="assets/js/amazeui.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/amazeui.min.js"></script>
 <!--<![endif]-->
 
 

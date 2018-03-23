@@ -1,5 +1,7 @@
 package cn.bdqn.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -15,6 +17,7 @@ import java.util.Date;
 public class CheckInformation {
     private  int checkId,hotelId,visbble;
     private String checkPeopleNum,checkName,checkPhone;
+    @JSONField(format = "yyyy-MM-dd")
     private Date check_intime,check_ontime;
 
     @Override

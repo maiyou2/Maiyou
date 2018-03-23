@@ -1,5 +1,7 @@
 package cn.bdqn.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Date;
 public class Package {
     private Integer comboId,visbble;
     private String combo,comboHotel;
+    @JSONField(format = "yyyy-MM-dd")
     private Date comboTime,comboSetTime;
     private double comboAir,comboPrice;
 
